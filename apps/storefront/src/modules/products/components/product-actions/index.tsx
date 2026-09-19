@@ -162,21 +162,32 @@ export default function ProductActions({
     "0px"
   )
 
-  const handleAddToCart = async () => {
-    if (!selectedVariant?.id) {
-      return null
-    }
+const handleAddToCart = async () => {
+  if (!selectedVariant?.id) {
+    return null
+  }
 
-    setIsAdding(true)
+  setIsAdding(true)
 
+  try {
     await addToCart({
       variantId: selectedVariant.id,
       quantity: 1,
       countryCode,
     })
 
+    const params = new URLSearchParams(searchParams.toString())
+    params.set("bag", "open")
+
+    router.replace(`${pathname}?${params.toString()}`, {
+      scroll: false,
+    })
+
+    router.refresh()
+  } finally {
     setIsAdding(false)
   }
+}
 
   const buttonLabel = !selectedVariant
     ? "Select size"

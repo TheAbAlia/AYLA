@@ -2,7 +2,11 @@
 
 import { HttpTypes } from "@medusajs/types"
 import { useEffect, useRef, useState } from "react"
-import { usePathname } from "next/navigation"
+import {
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import DeleteButton from "@modules/common/components/delete-button"
@@ -32,6 +36,28 @@ export default function CartDropdown({
 
   const containerRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    if (searchParams.get("bag") !== "open") {
+      return
+    }
+
+    setOpen(true)
+
+    const params = new URLSearchParams(searchParams.toString())
+    params.delete("bag")
+
+    const query = params.toString()
+
+    router.replace(
+      query ? `${pathname}?${query}` : pathname,
+      {
+        scroll: false,
+      }
+    )
+  }, [pathname, router, searchParams])
 
   const items = cart?.items ?? []
 
@@ -98,21 +124,27 @@ export default function CartDropdown({
         onClick={() => setOpen((current) => !current)}
         aria-expanded={open}
         aria-label="Open shopping bag"
-        className="relative z-[110] flex h-full items-center text-[10px] font-normal uppercase tracking-[0.28em] text-inherit transition-opacity duration-300 hover:opacity-55"
+        className={`
+          relative z-[110] flex h-full items-center
+          text-[10px] font-normal uppercase tracking-[0.28em]
+          text-inherit transition-opacity duration-300 hover:opacity-55
+          ${itemCount > 0 && !open ? "ayla-bag-active" : ""}
+        `}
       >
-        BAG
+        <span>BAG</span>
+
         {itemCount > 0 && (
-          <span className="ml-1">
-            ({itemCount})
+          <span className="ml-1.5 text-[8px] tracking-[0.12em] opacity-55">
+            {itemCount}
           </span>
         )}
       </button>
 
       {/* DROPDOWN */}
       {open && (
-        <div className="absolute right-0 top-full z-[100] pt-4">
+        <div className="ayla-bag-reveal absolute right-0 top-full z-[100] pt-3">
           <div
-            className="w-[420px] max-w-[calc(100vw-32px)] border border-[#191816]/15 bg-[#EEEAE1] shadow-[0_24px_60px_rgba(25,24,22,0.10)]"
+            className="w-[420px] max-w-[calc(100vw-32px)] border border-[#191816]/15 bg-[#EEEAE1] text-[#191816] shadow-[0_24px_60px_rgba(25,24,22,0.10)]"
             style={{
               color: DARK,
               backgroundColor: BONE,

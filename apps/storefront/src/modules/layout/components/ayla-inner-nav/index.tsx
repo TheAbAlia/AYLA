@@ -57,7 +57,7 @@ export default async function AylaInnerNav() {
               Account
             </LocalizedClientLink>
 
-            <div className="[&_*]:text-[#191816]">
+            <div className="text-[#191816]">
               <Suspense
                 fallback={
                   <LocalizedClientLink

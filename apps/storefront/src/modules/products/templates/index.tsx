@@ -34,9 +34,9 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
       data-testid="product-container"
     >
       {/* PRODUCT */}
-      <section className="px-5 pb-24 pt-8 md:px-[4.7%] md:pb-36 md:pt-12">
+      <section className="px-5 pb-20 pt-6 md:px-[4.7%] md:pb-36 md:pt-12">
         {/* Top metadata */}
-        <div className="mb-8 flex items-center justify-between border-t border-[#191816]/30 pt-4 md:mb-12">
+        <div className="mb-5 flex items-center justify-between border-t border-[#191816]/30 pt-3 md:mb-12 md:pt-4">
           <span className="text-[8px] uppercase tracking-[0.28em]">
             Collection 001
           </span>
@@ -47,14 +47,14 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
         </div>
 
         {/* Desktop: info / gallery / purchase */}
-        <div className="grid grid-cols-1 gap-y-10 lg:grid-cols-12 lg:gap-x-10 xl:gap-x-14">
+        <div className="grid grid-cols-1 gap-y-8 lg:grid-cols-12 lg:gap-x-10 lg:gap-y-10 xl:gap-x-14">
 
           {/* LEFT */}
           <aside className="order-2 lg:order-1 lg:col-span-3">
             <div className="lg:sticky lg:top-[120px]">
               <ProductInfo product={product} />
 
-              <div className="mt-12">
+              <div className="mt-8 md:mt-12">
                 <ProductTabs product={product} />
               </div>
             </div>
@@ -94,7 +94,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
               </Suspense>
 
               {/* Material note */}
-              <div className="mt-12 border-t border-[#191816]/25 pt-4">
+              <div className="mt-8 border-t border-[#191816]/25 pt-4 md:mt-12">
                 <div className="flex items-start justify-between gap-6">
                   <span className="text-[8px] uppercase tracking-[0.25em] opacity-45">
                     Material
@@ -112,10 +112,10 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
 
       {/* RELATED */}
       <section
-        className="border-t border-[#191816]/30 px-5 py-24 md:px-[4.7%] md:py-32"
+        className="border-t border-[#191816]/30 px-5 py-16 md:px-[4.7%] md:py-32"
         data-testid="related-products-container"
       >
-        <div className="mb-12 flex items-center justify-between">
+        <div className="mb-8 flex items-center justify-between md:mb-12">
           <span className="text-[9px] uppercase tracking-[0.28em]">
             Continue Exploring
           </span>

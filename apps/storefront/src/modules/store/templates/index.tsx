@@ -36,7 +36,7 @@ const StoreTemplate = ({
       data-testid="category-container"
     >
       {/* Editorial header */}
-      <section className="px-5 pb-16 pt-24 md:px-[4.7%] md:pb-24 md:pt-32">
+      <section className="px-5 pb-12 pt-16 md:px-[4.7%] md:pb-24 md:pt-32">
         <div className="flex items-center justify-between border-t border-[#191816]/30 pt-4">
           <span className="text-[9px] uppercase tracking-[0.28em]">
             Collection 001
@@ -47,9 +47,9 @@ const StoreTemplate = ({
           </span>
         </div>
 
-        <div className="mt-14 md:mt-20">
+        <div className="mt-10 md:mt-20">
           <h1
-            className="font-serif text-[20vw] font-normal uppercase leading-[0.78] tracking-[-0.055em] md:text-[10vw]"
+            className="font-serif text-[17vw] font-normal uppercase leading-[0.82] tracking-[-0.05em] md:text-[10vw] md:leading-[0.78] md:tracking-[-0.055em]"
             data-testid="store-page-title"
           >
             {title}
@@ -57,7 +57,7 @@ const StoreTemplate = ({
         </div>
 
         {/* Shop navigation */}
-        <div className="mt-14 flex gap-8 border-b border-[#191816]/30 pb-4 md:mt-20">
+        <div className="mt-10 flex gap-7 border-b border-[#191816]/30 pb-4 md:mt-20 md:gap-8">
           <LocalizedClientLink
             href="/store"
             className={`text-[9px] uppercase tracking-[0.25em] transition-opacity hover:opacity-50 ${
@@ -88,7 +88,7 @@ const StoreTemplate = ({
       </section>
 
       {/* Products */}
-      <section className="px-5 pb-28 md:px-[4.7%] md:pb-40">
+      <section className="px-5 pb-24 md:px-[4.7%] md:pb-40">
         <Suspense fallback={<SkeletonProductGrid />}>
           <PaginatedProducts
             sortBy={sort}
