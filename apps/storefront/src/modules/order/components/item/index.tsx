@@ -1,10 +1,8 @@
+import Image from "next/image"
 import { HttpTypes } from "@medusajs/types"
-import { Table, Text } from "@modules/common/components/ui"
 
-import LineItemOptions from "@modules/common/components/line-item-options"
-import LineItemPrice from "@modules/common/components/line-item-price"
-import LineItemUnitPrice from "@modules/common/components/line-item-unit-price"
-import Thumbnail from "@modules/products/components/thumbnail"
+import { convertToLocale } from "@lib/util/money"
+import { getAylaProductImages } from "@lib/util/ayla-product-images"
 
 type ItemProps = {
   item: HttpTypes.StoreCartLineItem | HttpTypes.StoreOrderLineItem
@@ -12,45 +10,68 @@ type ItemProps = {
 }
 
 const Item = ({ item, currencyCode }: ItemProps) => {
-  return (
-    <Table.Row className="w-full" data-testid="product-row">
-      <Table.Cell className="!pl-0 p-4 w-24">
-        <div className="flex w-16">
-          <Thumbnail thumbnail={item.thumbnail} size="square" />
-        </div>
-      </Table.Cell>
+  const handle =
+    "product_handle" in item
+      ? item.product_handle
+      : item.variant?.product?.handle
 
-      <Table.Cell className="text-left">
-        <Text
-          className="txt-medium-plus text-ui-fg-base"
+  const aylaImages = getAylaProductImages(handle)
+  const image = aylaImages?.front || item.thumbnail
+
+  const variantTitle =
+    item.variant?.title &&
+    item.variant.title !== "Default variant"
+      ? item.variant.title
+      : null
+
+  return (
+    <div
+      className="grid grid-cols-[72px_1fr] gap-5 border-b border-[#191816]/20 py-5 md:grid-cols-[88px_1fr_auto] md:items-center md:gap-7"
+      data-testid="product-row"
+    >
+      <div className="relative aspect-[4/5] w-[72px] overflow-hidden bg-[#E7E2D8] md:w-[88px]">
+        {image ? (
+          <Image
+            src={image}
+            alt={item.product_title || "AYLA product"}
+            fill
+            sizes="88px"
+            className="object-cover"
+          />
+        ) : null}
+      </div>
+
+      <div className="min-w-0">
+        <div
+          className="font-serif text-[20px] leading-[1.05] tracking-[-0.025em] md:text-[23px]"
           data-testid="product-name"
         >
           {item.product_title}
-        </Text>
-        <LineItemOptions variant={item.variant} data-testid="product-variant" />
-      </Table.Cell>
+        </div>
 
-      <Table.Cell className="!pr-0">
-        <span className="!pr-0 flex flex-col items-end h-full justify-center">
-          <span className="flex gap-x-1 ">
-            <Text className="text-ui-fg-muted">
-              <span data-testid="product-quantity">{item.quantity}</span>x{" "}
-            </Text>
-            <LineItemUnitPrice
-              item={item}
-              style="tight"
-              currencyCode={currencyCode}
-            />
+        <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-[7px] uppercase tracking-[0.18em] opacity-50">
+          {variantTitle && <span>{variantTitle}</span>}
+
+          <span>
+            Qty{" "}
+            <span data-testid="product-quantity">{item.quantity}</span>
           </span>
+        </div>
+      </div>
 
-          <LineItemPrice
-            item={item}
-            style="tight"
-            currencyCode={currencyCode}
-          />
-        </span>
-      </Table.Cell>
-    </Table.Row>
+      <div className="col-start-2 flex items-end justify-between gap-6 md:col-start-auto md:block md:text-right">
+        <div className="text-[7px] uppercase tracking-[0.18em] opacity-40 md:mb-2">
+          Total
+        </div>
+
+        <div className="text-[10px] tracking-[0.08em]">
+          {convertToLocale({
+            amount: item.total ?? 0,
+            currency_code: currencyCode,
+          })}
+        </div>
+      </div>
+    </div>
   )
 }
 

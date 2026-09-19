@@ -1,16 +1,17 @@
 import { Metadata } from "next"
+import { notFound } from "next/navigation"
 
-import ProfilePhone from "@modules/account//components/profile-phone"
+import ProfilePhone from "@modules/account/components/profile-phone"
 import ProfileBillingAddress from "@modules/account/components/profile-billing-address"
 import ProfileEmail from "@modules/account/components/profile-email"
 import ProfileName from "@modules/account/components/profile-name"
-import { notFound } from "next/navigation"
+
 import { listRegions } from "@lib/data/regions"
 import { retrieveCustomer } from "@lib/data/customer"
 
 export const metadata: Metadata = {
-  title: "Profile",
-  description: "View and edit your Medusa Store profile.",
+  title: "Profile — AYLA",
+  description: "Manage your AYLA account details.",
 }
 
 export default async function Profile() {
@@ -23,29 +24,31 @@ export default async function Profile() {
 
   return (
     <div className="w-full" data-testid="profile-page-wrapper">
-      <div className="mb-8 flex flex-col gap-y-4">
-        <h1 className="text-2xl-semi">Profile</h1>
-        <p className="text-base-regular">
-          View and update your profile information, including your name, email,
-          and phone number. You can also update your billing address, or change
-          your password.
-        </p>
-      </div>
-      <div className="flex flex-col gap-y-8 w-full">
+      <header className="grid grid-cols-1 gap-8 border-b border-[#191816]/25 pb-8 md:grid-cols-12 md:pb-10">
+        <div className="md:col-span-7">
+          <div className="text-[9px] uppercase tracking-[0.2em] opacity-45">
+            Account / 01
+          </div>
+
+          <h1 className="mt-4 font-serif text-[clamp(42px,5vw,72px)] font-normal leading-[0.9] tracking-[-0.045em]">
+            Profile
+          </h1>
+        </div>
+
+        <div className="flex items-end md:col-span-4 md:col-start-9">
+          <p className="max-w-sm text-[10px] leading-[1.7] tracking-[0.04em] opacity-60">
+            Manage the personal information associated with your AYLA
+            account.
+          </p>
+        </div>
+      </header>
+
+      <section className="mt-4">
         <ProfileName customer={customer} />
-        <Divider />
         <ProfileEmail customer={customer} />
-        <Divider />
         <ProfilePhone customer={customer} />
-        <Divider />
-        {/* <ProfilePassword customer={customer} />
-        <Divider /> */}
         <ProfileBillingAddress customer={customer} regions={regions} />
-      </div>
+      </section>
     </div>
   )
-}
-
-const Divider = () => {
-  return <div className="w-full h-px bg-gray-200" />
 }

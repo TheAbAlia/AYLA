@@ -1,9 +1,9 @@
 import { Disclosure } from "@headlessui/react"
-import { Badge, Button, clx } from "@modules/common/components/ui"
+import { clx } from "@modules/common/components/ui"
 import { useEffect } from "react"
+import { useFormStatus } from "react-dom"
 
 import useToggleState from "@lib/hooks/use-toggle-state"
-import { useFormStatus } from "react-dom"
 
 type AccountInfoProps = {
   label: string
@@ -13,7 +13,7 @@ type AccountInfoProps = {
   errorMessage?: string
   clearState: () => void
   children?: React.ReactNode
-  'data-testid'?: string
+  "data-testid"?: string
 }
 
 const AccountInfo = ({
@@ -24,10 +24,9 @@ const AccountInfo = ({
   clearState,
   errorMessage = "An error occurred, please try again",
   children,
-  'data-testid': dataTestid
+  "data-testid": dataTestid,
 }: AccountInfoProps) => {
   const { state, close, toggle } = useToggleState()
-
   const { pending } = useFormStatus()
 
   const handleToggle = () => {
@@ -42,67 +41,72 @@ const AccountInfo = ({
   }, [isSuccess, close])
 
   return (
-    <div className="text-small-regular" data-testid={dataTestid}>
-      <div className="flex items-end justify-between">
-        <div className="flex flex-col">
-          <span className="uppercase text-ui-fg-base">{label}</span>
-          <div className="flex items-center flex-1 basis-0 justify-end gap-x-4">
-            {typeof currentInfo === "string" ? (
-              <span className="font-semibold" data-testid="current-info">{currentInfo}</span>
-            ) : (
-              currentInfo
-            )}
+    <div
+      className="border-b border-[#191816]/20"
+      data-testid={dataTestid}
+    >
+      <div className="grid grid-cols-[1fr_auto] gap-8 py-6 md:grid-cols-12 md:items-start md:py-7">
+        <div className="md:col-span-3">
+          <span className="text-[8px] uppercase tracking-[0.2em] opacity-45">
+            {label}
+          </span>
+        </div>
+
+        <div className="min-w-0 md:col-span-7">
+          <div
+            className="text-[10px] leading-[1.65] tracking-[0.08em]"
+            data-testid="current-info"
+          >
+            {currentInfo}
           </div>
         </div>
-        <div>
-          <Button
-            variant="secondary"
-            className="w-[100px] min-h-[25px] py-1"
+
+        <div className="flex justify-end md:col-span-2">
+          <button
+            className="border-b border-[#191816]/50 pb-1 text-[8px] uppercase tracking-[0.2em] transition-opacity hover:opacity-50"
             onClick={handleToggle}
             type={state ? "reset" : "button"}
             data-testid="edit-button"
             data-active={state}
           >
             {state ? "Cancel" : "Edit"}
-          </Button>
+          </button>
         </div>
       </div>
 
-      {/* Success state */}
       <Disclosure>
         <Disclosure.Panel
           static
           className={clx(
-            "transition-[max-height,opacity] duration-300 ease-in-out overflow-hidden",
+            "overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out",
             {
-              "max-h-[1000px] opacity-100": isSuccess,
+              "max-h-[200px] opacity-100": isSuccess,
               "max-h-0 opacity-0": !isSuccess,
             }
           )}
           data-testid="success-message"
         >
-          <Badge className="p-2 my-4" color="green">
-            <span>{label} updated succesfully</span>
-          </Badge>
+          <div className="border-t border-[#191816]/10 py-3 text-[8px] uppercase tracking-[0.18em] opacity-60">
+            {label} updated successfully
+          </div>
         </Disclosure.Panel>
       </Disclosure>
 
-      {/* Error state  */}
       <Disclosure>
         <Disclosure.Panel
           static
           className={clx(
-            "transition-[max-height,opacity] duration-300 ease-in-out overflow-hidden",
+            "overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out",
             {
-              "max-h-[1000px] opacity-100": isError,
+              "max-h-[200px] opacity-100": isError,
               "max-h-0 opacity-0": !isError,
             }
           )}
           data-testid="error-message"
         >
-          <Badge className="p-2 my-4" color="red">
-            <span>{errorMessage}</span>
-          </Badge>
+          <div className="border-t border-[#191816]/10 py-3 text-[8px] uppercase tracking-[0.18em]">
+            {errorMessage}
+          </div>
         </Disclosure.Panel>
       </Disclosure>
 
@@ -110,24 +114,25 @@ const AccountInfo = ({
         <Disclosure.Panel
           static
           className={clx(
-            "transition-[max-height,opacity] duration-300 ease-in-out overflow-visible",
+            "overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out",
             {
-              "max-h-[1000px] opacity-100": state,
+              "max-h-[1400px] opacity-100": state,
               "max-h-0 opacity-0": !state,
             }
           )}
         >
-          <div className="flex flex-col gap-y-2 py-4">
-            <div>{children}</div>
-            <div className="flex items-center justify-end mt-2">
-              <Button
-                isLoading={pending}
-                className="w-full small:max-w-[140px]"
+          <div className="border-t border-[#191816]/15 pb-8 pt-6">
+            <div className="max-w-3xl">{children}</div>
+
+            <div className="mt-6 flex justify-end">
+              <button
+                disabled={pending}
+                className="min-w-[160px] bg-[#191816] px-7 py-4 text-[8px] uppercase tracking-[0.2em] text-[#EEEAE1] transition-opacity hover:opacity-80 disabled:opacity-40"
                 type="submit"
                 data-testid="save-button"
               >
-                Save changes
-              </Button>
+                {pending ? "Saving..." : "Save changes"}
+              </button>
             </div>
           </div>
         </Disclosure.Panel>

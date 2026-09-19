@@ -1,22 +1,34 @@
 "use client"
 
-import { Button } from "@modules/common/components/ui"
+import { HttpTypes } from "@medusajs/types"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 import OrderCard from "../order-card"
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import { HttpTypes } from "@medusajs/types"
 
 const OrderOverview = ({ orders }: { orders: HttpTypes.StoreOrder[] }) => {
   if (orders?.length) {
     return (
-      <div className="flex flex-col gap-y-8 w-full">
-        {orders.map((o) => (
-          <div
-            key={o.id}
-            className="border-b border-gray-200 pb-6 last:pb-0 last:border-none"
-          >
-            <OrderCard order={o} />
+      <div className="w-full" data-testid="orders-wrapper">
+        <div className="hidden border-b border-[#191816]/20 pb-3 md:grid md:grid-cols-12 md:gap-6">
+          <div className="text-[8px] uppercase tracking-[0.2em] opacity-40 md:col-span-2">
+            Order
           </div>
+          <div className="text-[8px] uppercase tracking-[0.2em] opacity-40 md:col-span-3">
+            Date
+          </div>
+          <div className="text-[8px] uppercase tracking-[0.2em] opacity-40 md:col-span-2">
+            Items
+          </div>
+          <div className="text-[8px] uppercase tracking-[0.2em] opacity-40 md:col-span-2">
+            Total
+          </div>
+          <div className="text-right text-[8px] uppercase tracking-[0.2em] opacity-40 md:col-span-3">
+            Details
+          </div>
+        </div>
+
+        {orders.map((order) => (
+          <OrderCard key={order.id} order={order} />
         ))}
       </div>
     )
@@ -24,19 +36,33 @@ const OrderOverview = ({ orders }: { orders: HttpTypes.StoreOrder[] }) => {
 
   return (
     <div
-      className="w-full flex flex-col items-center gap-y-4"
+      className="border-b border-[#191816]/20 py-16 md:py-20"
       data-testid="no-orders-container"
     >
-      <h2 className="text-large-semi">Nothing to see here</h2>
-      <p className="text-base-regular">
-        You don&apos;t have any orders yet, let us change that {":)"}
-      </p>
-      <div className="mt-4">
-        <LocalizedClientLink href="/" passHref>
-          <Button data-testid="continue-shopping-button">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
+        <div className="md:col-span-5">
+          <div className="text-[8px] uppercase tracking-[0.2em] opacity-45">
+            Order archive
+          </div>
+
+          <h2 className="mt-4 font-serif text-[34px] leading-none tracking-[-0.035em]">
+            No orders yet
+          </h2>
+        </div>
+
+        <div className="flex flex-col items-start justify-end md:col-span-4 md:col-start-9">
+          <p className="max-w-xs text-[10px] leading-[1.7] tracking-[0.04em] opacity-60">
+            Your AYLA orders will appear here once an order has been placed.
+          </p>
+
+          <LocalizedClientLink
+            href="/store"
+            className="mt-6 border-b border-[#191816]/50 pb-1 text-[8px] uppercase tracking-[0.2em] transition-opacity hover:opacity-50"
+            data-testid="continue-shopping-button"
+          >
             Continue shopping
-          </Button>
-        </LocalizedClientLink>
+          </LocalizedClientLink>
+        </div>
       </div>
     </div>
   )

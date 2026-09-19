@@ -1,9 +1,7 @@
 import React from "react"
-
-import UnderlineLink from "@modules/common/components/interactive-link"
+import { HttpTypes } from "@medusajs/types"
 
 import AccountNav from "../components/account-nav"
-import { HttpTypes } from "@medusajs/types"
 
 interface AccountLayoutProps {
   customer: HttpTypes.StoreCustomer | null
@@ -15,28 +13,82 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
   children,
 }) => {
   return (
-    <div className="flex-1 small:py-12" data-testid="account-page">
-      <div className="flex-1 content-container h-full max-w-5xl mx-auto bg-white flex flex-col">
-        <div className="grid grid-cols-1  small:grid-cols-[240px_1fr] py-12">
-          <div>{customer && <AccountNav customer={customer} />}</div>
-          <div className="flex-1">{children}</div>
-        </div>
-        <div className="flex flex-col small:flex-row items-end justify-between small:border-t border-gray-200 py-12 gap-8">
-          <div>
-            <h3 className="text-xl-semi mb-4">Got questions?</h3>
-            <span className="txt-medium">
-              You can find frequently asked questions and answers on our
-              customer service page.
-            </span>
-          </div>
-          <div>
-            <UnderlineLink href="/customer-service">
-              Customer Service
-            </UnderlineLink>
-          </div>
-        </div>
+    <main
+      className="min-h-screen bg-[#EEEAE1] text-[#191816]"
+      data-testid="account-page"
+    >
+      <div className="mx-auto w-full max-w-[1680px] px-5 pb-24 pt-10 md:px-8 md:pb-32 md:pt-14 lg:px-12">
+        {customer ? (
+          <>
+            <header className="border-b border-[#191816]/20 pb-5">
+              <div className="flex items-start justify-between gap-8">
+                <div className="text-[9px] uppercase tracking-[0.2em]">
+                  AYLA / Account
+                </div>
+
+                <div className="text-right text-[9px] uppercase tracking-[0.2em]">
+                  Client Area
+                </div>
+              </div>
+
+              <div className="mt-14 grid grid-cols-1 gap-8 md:mt-20 md:grid-cols-12">
+                <div className="md:col-span-7">
+                  <h1 className="font-serif text-[clamp(52px,7vw,112px)] font-normal uppercase leading-[0.78] tracking-[-0.055em]">
+                    Account
+                  </h1>
+                </div>
+
+                <div className="flex flex-col justify-end md:col-span-4 md:col-start-9">
+                  <div className="text-[9px] uppercase tracking-[0.18em] opacity-55">
+                    Signed in as
+                  </div>
+
+                  <div className="mt-2 text-[11px] uppercase tracking-[0.14em]">
+                    {[customer.first_name, customer.last_name]
+                      .filter(Boolean)
+                      .join(" ") || "AYLA Client"}
+                  </div>
+
+                  <div className="mt-1 text-[10px] tracking-[0.06em] opacity-60">
+                    {customer.email}
+                  </div>
+                </div>
+              </div>
+            </header>
+
+            <AccountNav customer={customer} />
+
+            <div
+  className="
+    pt-12 md:pt-16
+
+    [&_input]:rounded-none
+    [&_input]:border-x-0
+    [&_input]:border-t-0
+    [&_input]:border-b
+    [&_input]:border-[#191816]/30
+    [&_input]:bg-transparent
+    [&_input]:shadow-none
+
+    [&_select]:rounded-none
+    [&_select]:border-x-0
+    [&_select]:border-t-0
+    [&_select]:border-b
+    [&_select]:border-[#191816]/30
+    [&_select]:bg-transparent
+    [&_select]:shadow-none
+
+    [&_button]:rounded-none
+  "
+>
+  {children}
+</div>
+          </>
+        ) : (
+          <div>{children}</div>
+        )}
       </div>
-    </div>
+    </main>
   )
 }
 

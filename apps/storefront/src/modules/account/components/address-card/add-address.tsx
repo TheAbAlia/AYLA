@@ -1,7 +1,5 @@
 "use client"
 
-import { Plus } from "@medusajs/icons"
-import { Button, Heading } from "@modules/common/components/ui"
 import { useActionState, useEffect, useState } from "react"
 
 import { addCustomerAddress } from "@lib/data/customer"
@@ -47,22 +45,49 @@ const AddAddress = ({
   return (
     <>
       <button
-        className="border border-ui-border-base rounded-rounded p-5 min-h-[220px] h-full w-full flex flex-col justify-between"
+        type="button"
+        className="group flex min-h-[180px] h-full w-full flex-col justify-between text-left"
         onClick={open}
         data-testid="add-address-button"
       >
-        <span className="text-base-semi">New address</span>
-        <Plus />
+        <div>
+          <div className="text-[8px] uppercase tracking-[0.2em] opacity-45">
+            Address book
+          </div>
+
+          <div className="mt-4 font-serif text-[26px] leading-none tracking-[-0.03em]">
+            Add new address
+          </div>
+        </div>
+
+        <div className="mt-8 flex items-center justify-between border-t border-[#191816]/20 pt-4">
+          <span className="text-[8px] uppercase tracking-[0.2em]">
+            New address
+          </span>
+
+          <span className="text-[18px] font-light leading-none transition-transform duration-300 group-hover:rotate-90">
+            +
+          </span>
+        </div>
       </button>
 
       <Modal isOpen={state} close={close} data-testid="add-address-modal">
         <Modal.Title>
-          <Heading className="mb-2">Add address</Heading>
+          <div className="border-b border-[#191816]/20 pb-5">
+            <div className="text-[8px] uppercase tracking-[0.2em] opacity-45">
+              AYLA / Account
+            </div>
+
+            <h2 className="mt-3 font-serif text-[32px] font-normal leading-none tracking-[-0.035em] text-[#191816]">
+              Add address
+            </h2>
+          </div>
         </Modal.Title>
+
         <form action={formAction}>
           <Modal.Body>
-            <div className="flex flex-col gap-y-2">
-              <div className="grid grid-cols-2 gap-x-2">
+            <div className="grid grid-cols-1 gap-y-3 pt-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <Input
                   label="First name"
                   name="first_name"
@@ -70,6 +95,7 @@ const AddAddress = ({
                   autoComplete="given-name"
                   data-testid="first-name-input"
                 />
+
                 <Input
                   label="Last name"
                   name="last_name"
@@ -78,12 +104,14 @@ const AddAddress = ({
                   data-testid="last-name-input"
                 />
               </div>
+
               <Input
                 label="Company"
                 name="company"
                 autoComplete="organization"
                 data-testid="company-input"
               />
+
               <Input
                 label="Address"
                 name="address_1"
@@ -91,13 +119,15 @@ const AddAddress = ({
                 autoComplete="address-line1"
                 data-testid="address-1-input"
               />
+
               <Input
                 label="Apartment, suite, etc."
                 name="address_2"
                 autoComplete="address-line2"
                 data-testid="address-2-input"
               />
-              <div className="grid grid-cols-[144px_1fr] gap-x-2">
+
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-[144px_1fr]">
                 <Input
                   label="Postal code"
                   name="postal_code"
@@ -105,6 +135,7 @@ const AddAddress = ({
                   autoComplete="postal-code"
                   data-testid="postal-code-input"
                 />
+
                 <Input
                   label="City"
                   name="city"
@@ -113,12 +144,14 @@ const AddAddress = ({
                   data-testid="city-input"
                 />
               </div>
+
               <Input
                 label="Province / State"
                 name="province"
                 autoComplete="address-level1"
                 data-testid="state-input"
               />
+
               <CountrySelect
                 region={region}
                 name="country_code"
@@ -126,6 +159,7 @@ const AddAddress = ({
                 autoComplete="country"
                 data-testid="country-select"
               />
+
               <Input
                 label="Phone"
                 name="phone"
@@ -133,27 +167,34 @@ const AddAddress = ({
                 data-testid="phone-input"
               />
             </div>
+
             {formState.error && (
               <div
-                className="text-rose-500 text-small-regular py-2"
+                className="mt-4 border-t border-[#191816]/20 pt-3 text-[8px] uppercase tracking-[0.16em]"
                 data-testid="address-error"
               >
                 {formState.error}
               </div>
             )}
           </Modal.Body>
+
           <Modal.Footer>
-            <div className="flex gap-3 mt-6">
-              <Button
+            <div className="mt-6 grid grid-cols-2 gap-3">
+              <button
                 type="reset"
-                variant="secondary"
                 onClick={close}
-                className="h-10"
+                className="border border-[#191816] px-6 py-4 text-[8px] uppercase tracking-[0.2em] text-[#191816] transition-opacity hover:opacity-60"
                 data-testid="cancel-button"
               >
                 Cancel
-              </Button>
-              <SubmitButton data-testid="save-button">Save</SubmitButton>
+              </button>
+
+              <SubmitButton
+                className="rounded-none bg-[#191816] px-6 py-4 text-[8px] uppercase tracking-[0.2em] text-[#EEEAE1]"
+                data-testid="save-button"
+              >
+                Save address
+              </SubmitButton>
             </div>
           </Modal.Footer>
         </form>

@@ -9,19 +9,35 @@ type AddressBookProps = {
   region: HttpTypes.StoreRegion
 }
 
-const AddressBook: React.FC<AddressBookProps> = ({ customer, region }) => {
+const AddressBook: React.FC<AddressBookProps> = ({
+  customer,
+  region,
+}) => {
   const { addresses } = customer
+
   return (
-    <div className="w-full">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-1 mt-4">
-        <AddAddress region={region} addresses={addresses} />
-        {addresses.map((address) => {
-          return (
-            <EditAddress region={region} address={address} key={address.id} />
-          )
-        })}
+    <section className="w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2">
+        {addresses.map((address) => (
+          <div
+            key={address.id}
+            className="border-b border-[#191816]/20 py-7 md:odd:border-r md:odd:pr-8 md:even:pl-8"
+          >
+            <EditAddress
+              region={region}
+              address={address}
+            />
+          </div>
+        ))}
+
+        <div className="border-b border-[#191816]/20 py-7 md:odd:border-r md:odd:pr-8 md:even:pl-8">
+          <AddAddress
+            region={region}
+            addresses={addresses}
+          />
+        </div>
       </div>
-    </div>
+    </section>
   )
 }
 

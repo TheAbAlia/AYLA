@@ -121,19 +121,19 @@ export default function CartDropdown({
             {/* HEADER */}
             <div
               className="flex items-end justify-between border-b border-[#191816]/15 px-6 py-5"
-              style={{ color: DARK }}
+              
             >
-              <div style={{ color: DARK }}>
+              <div >
                 <p
                   className="mb-2 text-[8px] uppercase tracking-[0.26em] opacity-40"
-                  style={{ color: DARK }}
+                  
                 >
                   AYLA
                 </p>
 
                 <p
                   className="font-serif text-[25px] leading-none"
-                  style={{ color: DARK }}
+                  
                 >
                   Bag
                 </p>
@@ -141,7 +141,7 @@ export default function CartDropdown({
 
               <span
                 className="text-[8px] uppercase tracking-[0.22em] opacity-40"
-                style={{ color: DARK }}
+                
               >
                 {itemCount}{" "}
                 {itemCount === 1 ? "item" : "items"}
@@ -180,7 +180,7 @@ export default function CartDropdown({
                       <article
                         key={item.id}
                         className="grid grid-cols-[82px_minmax(0,1fr)_auto] gap-4 border-b border-[#191816]/10 px-6 py-5"
-                        style={{ color: DARK }}
+                        
                       >
                         {/* IMAGE */}
                         <LocalizedClientLink
@@ -205,33 +205,32 @@ export default function CartDropdown({
                         {/* PRODUCT DETAILS */}
                         <div
                           className="flex min-w-0 flex-col"
-                          style={{ color: DARK }}
+                          
                         >
                           <LocalizedClientLink
                             href={`/products/${handle}`}
                             onClick={() => setOpen(false)}
                             className="font-serif text-[15px] leading-[1.15] transition-opacity hover:opacity-50"
-                            style={{ color: DARK }}
+                            
                           >
                             {item.product_title}
                           </LocalizedClientLink>
 
                           <div
                             className="mt-3 flex gap-4"
-                            style={{ color: DARK }}
+                            
                           >
                             {size && (
                               <span
                                 className="text-[8px] uppercase tracking-[0.2em] opacity-45"
-                                style={{ color: DARK }}
-                              >
+                                >
                                 Size {size}
                               </span>
                             )}
 
                             <span
                               className="text-[8px] uppercase tracking-[0.2em] opacity-45"
-                              style={{ color: DARK }}
+                              
                             >
                               Qty {item.quantity}
                             </span>
@@ -241,7 +240,7 @@ export default function CartDropdown({
                             <DeleteButton
                               id={item.id}
                               className="text-[8px] uppercase tracking-[0.18em] opacity-40 transition-opacity hover:opacity-100"
-                              style={{ color: DARK }}
+                              
                             >
                               Remove
                             </DeleteButton>
@@ -251,7 +250,7 @@ export default function CartDropdown({
                         {/* PRICE */}
                         <span
                           className="whitespace-nowrap text-[10px]"
-                          style={{ color: DARK }}
+                          
                         >
                           {formatPrice(
                             lineTotal,
@@ -266,19 +265,19 @@ export default function CartDropdown({
                 {/* SUBTOTAL */}
                 <div
                   className="flex items-end justify-between px-6 py-5"
-                  style={{ color: DARK }}
+                  
                 >
-                  <div style={{ color: DARK }}>
+                  <div >
                     <p
                       className="text-[8px] uppercase tracking-[0.22em] opacity-40"
-                      style={{ color: DARK }}
+                      
                     >
                       Subtotal
                     </p>
 
                     <p
                       className="mt-1 text-[7px] uppercase tracking-[0.16em] opacity-30"
-                      style={{ color: DARK }}
+                      
                     >
                       Excl. shipping
                     </p>
@@ -286,7 +285,7 @@ export default function CartDropdown({
 
                   <p
                     className="font-serif text-[20px] leading-none"
-                    style={{ color: DARK }}
+                    
                   >
                     {formatPrice(
                       cart?.subtotal ?? 0,
@@ -318,18 +317,18 @@ export default function CartDropdown({
                 {/* FOOTER */}
                 <div
                   className="flex items-center justify-between border-t border-[#191816]/10 px-6 py-3"
-                  style={{ color: DARK }}
+                  
                 >
                   <span
                     className="text-[6px] uppercase tracking-[0.22em] opacity-30"
-                    style={{ color: DARK }}
+                    
                   >
                     Secure checkout
                   </span>
 
                   <span
                     className="text-[6px] uppercase tracking-[0.22em] opacity-30"
-                    style={{ color: DARK }}
+                    
                   >
                     Complimentary returns
                   </span>
@@ -339,11 +338,11 @@ export default function CartDropdown({
               /* EMPTY BAG */
               <div
                 className="px-6 py-12 text-center"
-                style={{ color: DARK }}
+                
               >
                 <p
                   className="font-serif text-[21px]"
-                  style={{ color: DARK }}
+                  
                 >
                   Your bag is empty.
                 </p>
@@ -352,7 +351,7 @@ export default function CartDropdown({
                   href="/store"
                   onClick={() => setOpen(false)}
                   className="mt-7 inline-block border-b border-[#191816] pb-1 text-[8px] uppercase tracking-[0.24em]"
-                  style={{ color: DARK }}
+                  
                 >
                   Explore collection
                 </LocalizedClientLink>
