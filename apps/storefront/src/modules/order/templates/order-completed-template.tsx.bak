@@ -65,20 +65,20 @@ export default async function OrderCompletedTemplate({
         </div>
 
         {/* HERO */}
-        <section className="mt-12 grid grid-cols-1 gap-10 md:mt-16 md:grid-cols-12">
-          <div className="md:col-span-7">
+        <section className="mt-16 grid grid-cols-1 gap-12 md:mt-24 md:grid-cols-12">
+          <div className="md:col-span-8">
             <p className="mb-6 text-[8px] uppercase tracking-[0.28em] opacity-45">
               Order received
             </p>
 
-            <h1 className="font-serif text-[clamp(68px,8.5vw,148px)] font-normal uppercase leading-[0.72] tracking-[-0.055em]">
+            <h1 className="font-serif text-[clamp(86px,13vw,220px)] font-normal uppercase leading-[0.68] tracking-[-0.065em]">
               Thank
               <br />
               you.
             </h1>
           </div>
 
-          <div className="flex flex-col justify-end md:col-span-4 md:col-start-9 md:pb-3">
+          <div className="flex flex-col justify-end md:col-span-4 md:pb-2">
             <p className="max-w-[330px] text-[9px] uppercase leading-[1.8] tracking-[0.17em]">
               Your order has been received.
             </p>
@@ -97,14 +97,14 @@ export default async function OrderCompletedTemplate({
         </section>
 
         {/* ORDER META */}
-        <section className="mt-14 border-y border-[#191816]/20 py-4 md:mt-16">
+        <section className="mt-20 border-y border-[#191816]/25 py-5 md:mt-28">
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
             <div>
               <p className="text-[7px] uppercase tracking-[0.24em] opacity-35">
                 Order
               </p>
               <p
-                className="mt-2 text-[8px] uppercase tracking-[0.16em]"
+                className="mt-3 text-[9px] uppercase tracking-[0.18em]"
                 data-testid="order-id"
               >
                 {String(order.display_id).padStart(4, "0")}
@@ -116,7 +116,7 @@ export default async function OrderCompletedTemplate({
                 Date
               </p>
               <p
-                className="mt-2 text-[8px] uppercase tracking-[0.16em]"
+                className="mt-3 text-[9px] uppercase tracking-[0.18em]"
                 data-testid="order-date"
               >
                 {formatDate(order.created_at)}
@@ -127,7 +127,7 @@ export default async function OrderCompletedTemplate({
               <p className="text-[7px] uppercase tracking-[0.24em] opacity-35">
                 Items
               </p>
-              <p className="mt-2 text-[8px] uppercase tracking-[0.16em]">
+              <p className="mt-3 text-[9px] uppercase tracking-[0.18em]">
                 {String(itemCount).padStart(2, "0")}
               </p>
             </div>
@@ -136,7 +136,7 @@ export default async function OrderCompletedTemplate({
               <p className="text-[7px] uppercase tracking-[0.24em] opacity-35">
                 Total
               </p>
-              <p className="mt-2 text-[8px] uppercase tracking-[0.16em]">
+              <p className="mt-3 text-[9px] uppercase tracking-[0.18em]">
                 {money(order.total, order.currency_code)}
               </p>
             </div>
@@ -144,15 +144,15 @@ export default async function OrderCompletedTemplate({
         </section>
 
         {/* ORDER */}
-        <section className="mt-14 md:mt-16">
+        <section className="mt-20 md:mt-28">
           <div className="flex items-end justify-between border-b border-[#191816]/25 pb-5">
             <div>
               <p className="mb-3 text-[8px] uppercase tracking-[0.26em] opacity-40">
                 Your order
               </p>
 
-              <h2 className="font-serif text-[34px] font-normal leading-none tracking-[-0.035em] md:text-[44px]">
-                Order
+              <h2 className="font-serif text-[40px] font-normal leading-none tracking-[-0.04em] md:text-[54px]">
+                Summary
               </h2>
             </div>
 
@@ -189,7 +189,7 @@ export default async function OrderCompletedTemplate({
               return (
                 <div
                   key={item.id}
-                  className="grid grid-cols-[68px_1fr_auto] gap-5 border-b border-[#191816]/15 py-5 md:grid-cols-[78px_1fr_auto] md:gap-7 md:py-6"
+                  className="grid grid-cols-[72px_1fr_auto] gap-5 border-b border-[#191816]/15 py-6 md:grid-cols-[84px_1fr_auto] md:gap-7 md:py-7"
                 >
                   <div className="aspect-[4/5] overflow-hidden bg-[#E4DFD5]">
                     {image ? (

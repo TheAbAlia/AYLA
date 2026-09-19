@@ -6,9 +6,10 @@ import { notFound } from "next/navigation"
 type Props = {
   params: Promise<{ id: string }>
 }
+
 export const metadata: Metadata = {
-  title: "Order Confirmed",
-  description: "You purchase was successful",
+  title: "Order Confirmed — AYLA",
+  description: "Your AYLA order has been confirmed.",
 }
 
 export default async function OrderConfirmedPage(props: Props) {

@@ -1,8 +1,5 @@
 import { Radio as RadioGroupOption } from "@headlessui/react"
-import { Text, clx } from "@modules/common/components/ui"
 import React, { useContext, type JSX } from "react"
-
-import Radio from "@modules/common/components/radio"
 
 import { isManual } from "@lib/constants"
 import SkeletonCardDetails from "@modules/skeletons/components/skeleton-card-details"
@@ -14,49 +11,67 @@ type PaymentContainerProps = {
   paymentProviderId: string
   selectedPaymentOptionId: string | null
   disabled?: boolean
-  paymentInfoMap: Record<string, { title: string; icon: JSX.Element }>
+  paymentInfoMap: Record<
+    string,
+    { title: string; icon: JSX.Element }
+  >
   children?: React.ReactNode
 }
 
-const PaymentContainer: React.FC<PaymentContainerProps> = ({
+const PaymentContainer = ({
   paymentProviderId,
   selectedPaymentOptionId,
   paymentInfoMap,
   disabled = false,
   children,
-}) => {
-  const isDevelopment = process.env.NODE_ENV === "development"
+}: PaymentContainerProps) => {
+  const selected =
+    selectedPaymentOptionId === paymentProviderId
+
+  const isDevelopment =
+    process.env.NODE_ENV === "development"
 
   return (
     <RadioGroupOption
-      key={paymentProviderId}
       value={paymentProviderId}
       disabled={disabled}
-      className={clx(
-        "flex flex-col gap-y-2 text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:shadow-borders-interactive-with-active",
-        {
-          "border-ui-border-interactive":
-            selectedPaymentOptionId === paymentProviderId,
-        }
-      )}
+      className="cursor-pointer border-t border-[#191816]/20 py-5 outline-none disabled:cursor-not-allowed disabled:opacity-30"
     >
-      <div className="flex items-center justify-between ">
-        <div className="flex items-center gap-x-4">
-          <Radio checked={selectedPaymentOptionId === paymentProviderId} />
-          <Text className="text-base-regular">
-            {paymentInfoMap[paymentProviderId]?.title || paymentProviderId}
-          </Text>
-          {isManual(paymentProviderId) && isDevelopment && (
-            <PaymentTest className="hidden small:block" />
-          )}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <span
+            className={`flex h-[13px] w-[13px] items-center justify-center rounded-full border ${
+              selected
+                ? "border-[#191816]"
+                : "border-[#191816]/35"
+            }`}
+          >
+            {selected && (
+              <span className="h-[5px] w-[5px] rounded-full bg-[#191816]" />
+            )}
+          </span>
+
+          <span className="text-[9px] uppercase tracking-[0.16em]">
+            {paymentInfoMap[paymentProviderId]?.title ||
+              paymentProviderId}
+          </span>
+
+          {isManual(paymentProviderId) &&
+            isDevelopment && (
+              <PaymentTest className="hidden md:block" />
+            )}
         </div>
-        <span className="justify-self-end text-ui-fg-base">
+
+        <span className="opacity-55">
           {paymentInfoMap[paymentProviderId]?.icon}
         </span>
       </div>
-      {isManual(paymentProviderId) && isDevelopment && (
-        <PaymentTest className="small:hidden text-[10px]" />
-      )}
+
+      {isManual(paymentProviderId) &&
+        isDevelopment && (
+          <PaymentTest className="mt-3 text-[8px] md:hidden" />
+        )}
+
       {children}
     </RadioGroupOption>
   )
@@ -86,30 +101,30 @@ export const StripePaymentContainer = ({
     >
       {selectedPaymentOptionId === paymentProviderId &&
         (stripeReady ? (
-          <div className="my-4 transition-all duration-150 ease-in-out">
-            <Text className="txt-medium-plus text-ui-fg-base mb-1">
-              Enter your payment details:
-            </Text>
+          <div className="mt-6 border-t border-[#191816]/15 pt-6">
+            <p className="mb-5 text-[7px] uppercase tracking-[0.22em] opacity-45">
+              Payment details
+            </p>
+
             <PaymentElement
               options={{ layout: "accordion" }}
-              onChange={(e) => {
+              onChange={(event) => {
                 setError(null)
-                setPaymentComplete(e.complete)
+                setPaymentComplete(event.complete)
               }}
-              // Without a handler Stripe.js reports a failed mount as an
-              // unhandled "payment Element loaderror" and the option renders
-              // blank with no explanation. Surface it in the checkout's own
-              // error slot instead.
-              onLoadError={(e) => {
+              onLoadError={(event) => {
                 setPaymentComplete(false)
                 setError(
-                  e.error?.message ?? "Could not load the payment methods."
+                  event.error?.message ??
+                    "Could not load the payment methods."
                 )
               }}
             />
           </div>
         ) : (
-          <SkeletonCardDetails />
+          <div className="mt-6">
+            <SkeletonCardDetails />
+          </div>
         ))}
     </PaymentContainer>
   )

@@ -1,21 +1,13 @@
 "use client"
+
 import { RadioGroup } from "@headlessui/react"
 import { isStripeLike, paymentInfoMap } from "@lib/constants"
 import { initiatePaymentSession } from "@lib/data/cart"
-import { CheckCircleSolid, CreditCard } from "@medusajs/icons"
+import { HttpTypes } from "@medusajs/types"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import PaymentContainer, {
   StripePaymentContainer,
 } from "@modules/checkout/components/payment-container"
-import Divider from "@modules/common/components/divider"
-import {
-  Button,
-  Container,
-  Heading,
-  Text,
-  clx,
-} from "@modules/common/components/ui"
-import { HttpTypes } from "@medusajs/types"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 
@@ -26,16 +18,17 @@ const Payment = ({
   cart: HttpTypes.StoreCart
   availablePaymentMethods: { id: string }[]
 }) => {
-  const activeSession = cart.payment_collection?.payment_sessions?.find(
-    (paymentSession) => paymentSession.status === "pending"
-  )
+  const activeSession =
+    cart.payment_collection?.payment_sessions?.find(
+      (session) => session.status === "pending"
+    )
 
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [paymentComplete, setPaymentComplete] = useState(false)
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
-    activeSession?.provider_id ?? ""
-  )
+
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState(activeSession?.provider_id ?? "")
 
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -43,9 +36,33 @@ const Payment = ({
 
   const isOpen = searchParams.get("step") === "payment"
 
+  const paidByGiftcard = !!(
+    (cart as unknown as Record<string, unknown>)?.gift_cards &&
+    (
+      (cart as unknown as Record<string, unknown>)
+        .gift_cards as unknown[]
+    )?.length > 0 &&
+    cart.total === 0
+  )
+
+  const paymentReady =
+    (activeSession &&
+      (cart.shipping_methods?.length ?? 0) !== 0) ||
+    paidByGiftcard
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams)
+      params.set(name, value)
+      return params.toString()
+    },
+    [searchParams]
+  )
+
   const setPaymentMethod = async (method: string) => {
     setError(null)
     setSelectedPaymentMethod(method)
+
     if (isStripeLike(method)) {
       await initiatePaymentSession(cart, {
         provider_id: method,
@@ -53,50 +70,33 @@ const Payment = ({
     }
   }
 
-  const paidByGiftcard = !!(
-    (cart as unknown as Record<string, unknown>)?.gift_cards && ((cart as unknown as Record<string, unknown>)?.gift_cards as unknown[])?.length > 0 && cart?.total === 0
-  )
-
-  const paymentReady =
-    (activeSession && (cart?.shipping_methods?.length ?? 0) !== 0) || paidByGiftcard
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams)
-      params.set(name, value)
-
-      return params.toString()
-    },
-    [searchParams]
-  )
-
   const handleEdit = () => {
-    router.push(pathname + "?" + createQueryString("step", "payment"), {
-      scroll: false,
-    })
+    router.push(
+      pathname + "?" + createQueryString("step", "payment"),
+      { scroll: false }
+    )
   }
 
   const handleSubmit = async () => {
     setIsLoading(true)
+
     try {
       const shouldInputPaymentDetails =
         isStripeLike(selectedPaymentMethod) && !activeSession
 
-      const checkActiveSession =
+      const sessionMatches =
         activeSession?.provider_id === selectedPaymentMethod
 
-      if (!checkActiveSession) {
+      if (!sessionMatches) {
         await initiatePaymentSession(cart, {
           provider_id: selectedPaymentMethod,
         })
       }
 
       if (!shouldInputPaymentDetails) {
-        return router.push(
+        router.push(
           pathname + "?" + createQueryString("step", "review"),
-          {
-            scroll: false,
-          }
+          { scroll: false }
         )
       }
     } catch (err) {
@@ -111,76 +111,80 @@ const Payment = ({
   }, [isOpen])
 
   return (
-    <div className="bg-white">
-      <div className="flex flex-row items-center justify-between mb-6">
-        <Heading
-          level="h2"
-          className={clx(
-            "flex flex-row text-3xl-regular gap-x-2 items-baseline",
-            {
-              "opacity-50 pointer-events-none select-none":
-                !isOpen && !paymentReady,
-            }
-          )}
-        >
-          Payment
-          {!isOpen && paymentReady && <CheckCircleSolid />}
-        </Heading>
+    <section className="border-b border-[#191816]/25 py-12">
+      <div className="flex items-start justify-between">
+        <div className="flex items-baseline gap-5">
+          <span className="text-[8px] uppercase tracking-[0.28em] opacity-35">
+            03
+          </span>
+
+          <h2
+            className={`font-serif text-[32px] font-normal leading-none tracking-[-0.035em] md:text-[38px] ${
+              !isOpen && !paymentReady ? "opacity-35" : ""
+            }`}
+          >
+            Payment
+          </h2>
+        </div>
+
         {!isOpen && paymentReady && (
-          <Text>
-            <button
-              onClick={handleEdit}
-              className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
-              data-testid="edit-payment-button"
-            >
-              Edit
-            </button>
-          </Text>
+          <button
+            type="button"
+            onClick={handleEdit}
+            data-testid="edit-payment-button"
+            className="text-[8px] uppercase tracking-[0.22em] opacity-45 transition-opacity hover:opacity-100"
+          >
+            Edit
+          </button>
         )}
       </div>
-      <div>
-        <div className={isOpen ? "block" : "hidden"}>
-          {!paidByGiftcard && availablePaymentMethods?.length && (
-            <>
-              <RadioGroup
-                value={selectedPaymentMethod}
-                onChange={(value: string) => setPaymentMethod(value)}
-              >
-                {availablePaymentMethods.map((paymentMethod) => (
-                  <div key={paymentMethod.id}>
-                    {isStripeLike(paymentMethod.id) ? (
+
+      {isOpen && (
+        <div className="pt-10">
+          {!paidByGiftcard &&
+            availablePaymentMethods?.length > 0 && (
+              <>
+                <p className="mb-6 text-[8px] uppercase tracking-[0.22em] opacity-45">
+                  Payment method
+                </p>
+
+                <RadioGroup
+                  value={selectedPaymentMethod}
+                  onChange={(value: string) =>
+                    setPaymentMethod(value)
+                  }
+                >
+                  {availablePaymentMethods.map((method) =>
+                    isStripeLike(method.id) ? (
                       <StripePaymentContainer
-                        paymentProviderId={paymentMethod.id}
-                        selectedPaymentOptionId={selectedPaymentMethod}
+                        key={method.id}
+                        paymentProviderId={method.id}
+                        selectedPaymentOptionId={
+                          selectedPaymentMethod
+                        }
                         paymentInfoMap={paymentInfoMap}
                         setError={setError}
                         setPaymentComplete={setPaymentComplete}
                       />
                     ) : (
                       <PaymentContainer
+                        key={method.id}
                         paymentInfoMap={paymentInfoMap}
-                        paymentProviderId={paymentMethod.id}
-                        selectedPaymentOptionId={selectedPaymentMethod}
+                        paymentProviderId={method.id}
+                        selectedPaymentOptionId={
+                          selectedPaymentMethod
+                        }
                       />
-                    )}
-                  </div>
-                ))}
-              </RadioGroup>
-            </>
-          )}
+                    )
+                  )}
+                </RadioGroup>
+              </>
+            )}
 
           {paidByGiftcard && (
-            <div className="flex flex-col w-1/3">
-              <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                Payment method
-              </Text>
-              <Text
-                className="txt-medium text-ui-fg-subtle"
-                data-testid="payment-method-summary"
-              >
-                Gift card
-              </Text>
-            </div>
+            <p className="text-[9px] uppercase tracking-[0.16em]">
+              Gift card
+            </p>
           )}
 
           <ErrorMessage
@@ -188,72 +192,51 @@ const Payment = ({
             data-testid="payment-method-error-message"
           />
 
-          <Button
-            size="large"
-            className="mt-6"
+          <button
+            type="button"
             onClick={handleSubmit}
-            isLoading={isLoading}
             disabled={
-              (isStripeLike(selectedPaymentMethod) && !paymentComplete) ||
+              isLoading ||
+              (isStripeLike(selectedPaymentMethod) &&
+                !paymentComplete) ||
               (!selectedPaymentMethod && !paidByGiftcard)
             }
             data-testid="submit-payment-button"
+            className="mt-10 flex h-[56px] w-full items-center justify-between bg-[#191816] px-6 text-[#EEEAE1] transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-30 md:w-[280px]"
           >
-            {!activeSession && isStripeLike(selectedPaymentMethod)
-              ? "Enter payment details"
-              : "Continue to review"}
-          </Button>
-        </div>
+            <span className="text-[8px] uppercase tracking-[0.24em]">
+              {isLoading
+                ? "Updating"
+                : !activeSession &&
+                  isStripeLike(selectedPaymentMethod)
+                ? "Enter payment details"
+                : "Continue to review"}
+            </span>
 
-        <div className={isOpen ? "hidden" : "block"}>
-          {cart && paymentReady && activeSession ? (
-            <div className="flex items-start gap-x-1 w-full">
-              <div className="flex flex-col w-1/3">
-                <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                  Payment method
-                </Text>
-                <Text
-                  className="txt-medium text-ui-fg-subtle"
-                  data-testid="payment-method-summary"
-                >
-                  {paymentInfoMap[activeSession?.provider_id]?.title ||
-                    activeSession?.provider_id}
-                </Text>
-              </div>
-              <div className="flex flex-col w-1/3">
-                <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                  Payment details
-                </Text>
-                <div
-                  className="flex gap-2 txt-medium text-ui-fg-subtle items-center"
-                  data-testid="payment-details-summary"
-                >
-                  <Container className="flex items-center h-7 w-fit p-2 bg-ui-button-neutral-hover">
-                    {paymentInfoMap[selectedPaymentMethod]?.icon || (
-                      <CreditCard />
-                    )}
-                  </Container>
-                  <Text>Another step will appear</Text>
-                </div>
-              </div>
-            </div>
-          ) : paidByGiftcard ? (
-            <div className="flex flex-col w-1/3">
-              <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                Payment method
-              </Text>
-              <Text
-                className="txt-medium text-ui-fg-subtle"
-                data-testid="payment-method-summary"
-              >
-                Gift card
-              </Text>
-            </div>
-          ) : null}
+            <span>→</span>
+          </button>
         </div>
-      </div>
-      <Divider className="mt-8" />
-    </div>
+      )}
+
+      {!isOpen && paymentReady && (
+        <div className="mt-8 pl-0 md:pl-[42px]">
+          <p className="mb-2 text-[7px] uppercase tracking-[0.22em] opacity-35">
+            Method
+          </p>
+
+          <p
+            className="text-[9px] uppercase tracking-[0.14em]"
+            data-testid="payment-method-summary"
+          >
+            {paidByGiftcard
+              ? "Gift card"
+              : paymentInfoMap[activeSession?.provider_id || ""]
+                  ?.title ||
+                activeSession?.provider_id}
+          </p>
+        </div>
+      )}
+    </section>
   )
 }
 

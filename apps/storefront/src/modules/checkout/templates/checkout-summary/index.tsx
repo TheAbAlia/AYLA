@@ -1,28 +1,51 @@
-import { Heading } from "@modules/common/components/ui"
+import { HttpTypes } from "@medusajs/types"
 
 import ItemsPreviewTemplate from "@modules/cart/templates/preview"
 import DiscountCode from "@modules/checkout/components/discount-code"
 import CartTotals from "@modules/common/components/cart-totals"
-import Divider from "@modules/common/components/divider"
-import { HttpTypes } from "@medusajs/types"
 
 const CheckoutSummary = ({ cart }: { cart: HttpTypes.StoreCart }) => {
+  const itemCount =
+    cart.items?.reduce((total, item) => total + item.quantity, 0) ?? 0
+
   return (
-    <div className="sticky top-0 flex flex-col-reverse small:flex-col gap-y-8 py-8 small:py-0 ">
-      <div className="w-full bg-white flex flex-col">
-        <Divider className="my-6 small:hidden" />
-        <Heading
-          level="h2"
-          className="flex flex-row text-3xl-regular items-baseline"
-        >
-          In your Cart
-        </Heading>
-        <Divider className="my-6" />
-        <CartTotals totals={cart} />
-        <ItemsPreviewTemplate cart={cart} />
-        <div className="my-6">
-          <DiscountCode cart={cart} />
+    <div className="lg:sticky lg:top-8">
+      <div className="flex items-end justify-between border-b border-[#191816]/20 pb-5">
+        <div>
+          <p className="mb-3 text-[8px] uppercase tracking-[0.26em] opacity-45">
+            Order
+          </p>
+
+          <h2 className="font-serif text-[32px] font-normal leading-none tracking-[-0.03em]">
+            Summary
+          </h2>
         </div>
+
+        <span className="text-[8px] uppercase tracking-[0.22em] opacity-40">
+          {itemCount} {itemCount === 1 ? "item" : "items"}
+        </span>
+      </div>
+
+      <div className="border-b border-[#191816]/15 py-6">
+        <ItemsPreviewTemplate cart={cart} />
+      </div>
+
+      <div className="border-b border-[#191816]/15 py-6">
+        <DiscountCode cart={cart} />
+      </div>
+
+      <div className="pt-6">
+        <CartTotals totals={cart} />
+      </div>
+
+      <div className="mt-8 flex items-center justify-between border-t border-[#191816]/15 pt-4">
+        <span className="text-[7px] uppercase tracking-[0.22em] opacity-35">
+          Secure checkout
+        </span>
+
+        <span className="text-[7px] uppercase tracking-[0.22em] opacity-35">
+          AYLA
+        </span>
       </div>
     </div>
   )

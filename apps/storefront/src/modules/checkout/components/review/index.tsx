@@ -1,18 +1,20 @@
 "use client"
 
-import { Heading, Text, clx } from "@modules/common/components/ui"
+import { HttpTypes } from "@medusajs/types"
+import { useSearchParams } from "next/navigation"
 
 import PaymentButton from "../payment-button"
-import { useSearchParams } from "next/navigation"
-import { HttpTypes } from "@medusajs/types"
 
 const Review = ({ cart }: { cart: HttpTypes.StoreCart }) => {
   const searchParams = useSearchParams()
-
   const isOpen = searchParams.get("step") === "review"
 
   const paidByGiftcard = !!(
-    (cart as unknown as Record<string, unknown>)?.gift_cards && ((cart as unknown as Record<string, unknown>)?.gift_cards as unknown[])?.length > 0 && cart?.total === 0
+    (cart as unknown as Record<string, unknown>)?.gift_cards &&
+    (
+      (cart as unknown as Record<string, unknown>).gift_cards as unknown[]
+    )?.length > 0 &&
+    cart.total === 0
   )
 
   const previousStepsCompleted =
@@ -21,36 +23,40 @@ const Review = ({ cart }: { cart: HttpTypes.StoreCart }) => {
     (cart.payment_collection || paidByGiftcard)
 
   return (
-    <div className="bg-white">
-      <div className="flex flex-row items-center justify-between mb-6">
-        <Heading
-          level="h2"
-          className={clx(
-            "flex flex-row text-3xl-regular gap-x-2 items-baseline",
-            {
-              "opacity-50 pointer-events-none select-none": !isOpen,
-            }
-          )}
+    <section className="py-12">
+      <div className="flex items-baseline gap-5">
+        <span className="text-[8px] uppercase tracking-[0.28em] opacity-35">
+          04
+        </span>
+
+        <h2
+          className={`font-serif text-[32px] font-normal leading-none tracking-[-0.035em] md:text-[38px] ${
+            !isOpen ? "opacity-35" : ""
+          }`}
         >
           Review
-        </Heading>
+        </h2>
       </div>
+
       {isOpen && previousStepsCompleted && (
-        <>
-          <div className="flex items-start gap-x-1 w-full mb-6">
-            <div className="w-full">
-              <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                By clicking the Place Order button, you confirm that you have
-                read, understand and accept our Terms of Use, Terms of Sale and
-                Returns Policy and acknowledge that you have read Medusa
-                Store&apos;s Privacy Policy.
-              </Text>
-            </div>
+        <div className="pt-10">
+          <div className="border-t border-[#191816]/20 pt-6">
+            <p className="max-w-[520px] text-[8px] uppercase leading-[1.9] tracking-[0.15em] opacity-45">
+              By placing your order, you confirm that you have read and accept
+              AYLA&apos;s Terms of Use, Terms of Sale, Returns Policy and
+              Privacy Policy.
+            </p>
           </div>
-          <PaymentButton cart={cart} data-testid="submit-order-button" />
-        </>
+
+          <div className="mt-9 [&_button]:!flex [&_button]:!h-[58px] [&_button]:!w-full [&_button]:!items-center [&_button]:!justify-center [&_button]:!rounded-none [&_button]:!border-0 [&_button]:!bg-[#191816] [&_button]:!text-[8px] [&_button]:!uppercase [&_button]:!tracking-[0.26em] [&_button]:!text-[#EEEAE1] md:[&_button]:!w-[280px]">
+            <PaymentButton
+              cart={cart}
+              data-testid="submit-order-button"
+            />
+          </div>
+        </div>
       )}
-    </div>
+    </section>
   )
 }
 
