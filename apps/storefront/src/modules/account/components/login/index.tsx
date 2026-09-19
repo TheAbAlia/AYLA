@@ -31,13 +31,15 @@ const Login = ({ setCurrentView }: Props) => {
           </span>
 
           <input
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            data-testid="email-input"
-            className="mt-3 w-full rounded-none border-0 border-b border-[#191816]/35 bg-transparent px-0 py-3 text-[13px] text-[#191816] outline-none focus:border-[#191816] focus:ring-0"
-          />
+              name="email"
+              type="email"
+              autoComplete="email"
+              autoCapitalize="none"
+              spellCheck={false}
+              required
+              data-testid="email-input"
+              className="mt-3 w-full rounded-none border-0 border-b border-[#191816]/35 bg-transparent px-0 py-3 text-[13px] text-[#191816] outline-none focus:border-[#191816] focus:ring-0"
+            />
         </label>
 
         <label className="mt-8 block">

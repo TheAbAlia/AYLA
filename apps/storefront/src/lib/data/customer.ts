@@ -25,6 +25,9 @@ export type CustomerAuthState =
   | { state: "success" }
   | null
 
+const normalizeEmail = (value: FormDataEntryValue | string | null) =>
+  String(value ?? "").trim().toLowerCase()
+
 // Requests a verification email for the given customer. The request must be
 // authenticated with a token tied to the auth identity (the token returned by
 // register or by a login that requires verification).
@@ -90,7 +93,7 @@ export async function signup(
 ): Promise<CustomerAuthState> {
   const password = formData.get("password") as string
   const customerForm = {
-    email: formData.get("email") as string,
+    email: normalizeEmail(formData.get("email")),
     first_name: formData.get("first_name") as string,
     last_name: formData.get("last_name") as string,
     phone: formData.get("phone") as string,
@@ -128,7 +131,7 @@ export async function login(
   _currentState: unknown,
   formData: FormData
 ): Promise<CustomerAuthState> {
-  const email = formData.get("email") as string
+  const email = normalizeEmail(formData.get("email"))
   const password = formData.get("password") as string
 
   return completeLogin(email, password)

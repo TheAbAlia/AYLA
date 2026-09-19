@@ -244,12 +244,14 @@ const handleAddToCart = async () => {
           className="
             group
             flex
-            min-h-[54px]
+            min-h-[58px]
+            lg:min-h-[54px]
             w-full
             items-center
             justify-between
             bg-[#191816]
-            px-5
+            px-6
+            lg:px-5
             text-[#F1EDE5]
             transition-all
             duration-300

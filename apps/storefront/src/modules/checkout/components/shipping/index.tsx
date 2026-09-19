@@ -178,15 +178,15 @@ const Shipping = ({
   )
 
   return (
-    <section className="border-b border-[#191816]/25 py-12">
+    <section className="border-b border-[#191816]/25 py-10 md:py-12">
       <div className="flex items-start justify-between">
-        <div className="flex items-baseline gap-5">
+        <div className="flex items-baseline gap-4 md:gap-5">
           <span className="text-[8px] uppercase tracking-[0.28em] opacity-35">
             02
           </span>
 
           <h2
-            className={`font-serif text-[32px] font-normal leading-none tracking-[-0.035em] md:text-[38px] ${
+            className={`font-serif text-[28px] font-normal leading-none tracking-[-0.03em] md:text-[38px] md:tracking-[-0.035em] ${
               !isOpen && !cart.shipping_methods?.length
                 ? "opacity-35"
                 : ""

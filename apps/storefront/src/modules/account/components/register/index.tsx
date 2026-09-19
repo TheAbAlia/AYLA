@@ -80,6 +80,8 @@ const Register = ({ setCurrentView }: Props) => {
               required
               type="email"
               autoComplete="email"
+              autoCapitalize="none"
+              spellCheck={false}
               data-testid="email-input"
               className={inputClass}
             />

@@ -36,14 +36,14 @@ const Addresses = ({
   const [message, formAction] = useActionState(setAddresses, null)
 
   return (
-    <section className="border-b border-[#191816]/25 pb-12">
+    <section className="border-b border-[#191816]/25 pb-10 md:pb-12">
       <div className="flex items-start justify-between">
-        <div className="flex items-baseline gap-5">
+        <div className="flex items-baseline gap-4 md:gap-5">
           <span className="text-[8px] uppercase tracking-[0.28em] opacity-35">
             01
           </span>
 
-          <h2 className="font-serif text-[32px] font-normal leading-none tracking-[-0.035em] md:text-[38px]">
+          <h2 className="font-serif text-[28px] font-normal leading-none tracking-[-0.03em] md:text-[38px] md:tracking-[-0.035em]">
             Information
           </h2>
         </div>
@@ -61,7 +61,7 @@ const Addresses = ({
       </div>
 
       {isOpen ? (
-        <form action={formAction} className="pt-12">
+        <form action={formAction} className="pt-9 md:pt-12">
           <ShippingAddress
             customer={customer}
             checked={sameAsBilling}

@@ -45,14 +45,14 @@ const AccountInfo = ({
       className="border-b border-[#191816]/20"
       data-testid={dataTestid}
     >
-      <div className="grid grid-cols-[1fr_auto] gap-8 py-6 md:grid-cols-12 md:items-start md:py-7">
+      <div className="grid grid-cols-[1fr_auto] gap-x-6 gap-y-3 py-5 md:grid-cols-12 md:items-start md:gap-8 md:py-7">
         <div className="md:col-span-3">
           <span className="text-[8px] uppercase tracking-[0.2em] opacity-45">
             {label}
           </span>
         </div>
 
-        <div className="min-w-0 md:col-span-7">
+        <div className="col-span-2 min-w-0 md:col-span-7">
           <div
             className="text-[10px] leading-[1.65] tracking-[0.08em]"
             data-testid="current-info"
@@ -61,7 +61,7 @@ const AccountInfo = ({
           </div>
         </div>
 
-        <div className="flex justify-end md:col-span-2">
+        <div className="row-start-1 flex justify-end md:col-span-2 md:row-auto">
           <button
             className="border-b border-[#191816]/50 pb-1 text-[8px] uppercase tracking-[0.2em] transition-opacity hover:opacity-50"
             onClick={handleToggle}

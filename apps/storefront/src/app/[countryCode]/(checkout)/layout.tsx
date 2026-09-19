@@ -8,7 +8,7 @@ export default function CheckoutLayout({
   return (
     <div className="min-h-screen w-full bg-[#EEEAE1] text-[#191816]">
       <header className="border-b border-[#191816]/20">
-        <nav className="relative flex h-[76px] items-center px-5 md:h-[88px] md:px-[4.7%]">
+        <nav className="relative flex h-[68px] items-center px-5 md:h-[88px] md:px-[4.7%]">
           <div className="flex flex-1 items-center">
             <LocalizedClientLink
               href="/cart"
@@ -21,7 +21,7 @@ export default function CheckoutLayout({
 
           <LocalizedClientLink
             href="/"
-            className="absolute left-1/2 -translate-x-1/2 font-serif text-[23px] leading-none tracking-[0.04em] transition-opacity hover:opacity-50 md:text-[27px]"
+            className="absolute left-1/2 -translate-x-1/2 font-serif text-[21px] leading-none tracking-[0.04em] transition-opacity hover:opacity-50 md:text-[27px]"
             data-testid="store-link"
           >
             AYLA

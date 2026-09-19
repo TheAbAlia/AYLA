@@ -23,14 +23,14 @@ const Review = ({ cart }: { cart: HttpTypes.StoreCart }) => {
     (cart.payment_collection || paidByGiftcard)
 
   return (
-    <section className="py-12">
-      <div className="flex items-baseline gap-5">
+    <section className="py-10 md:py-12">
+      <div className="flex items-baseline gap-4 md:gap-5">
         <span className="text-[8px] uppercase tracking-[0.28em] opacity-35">
           04
         </span>
 
         <h2
-          className={`font-serif text-[32px] font-normal leading-none tracking-[-0.035em] md:text-[38px] ${
+          className={`font-serif text-[28px] font-normal leading-none tracking-[-0.03em] md:text-[38px] md:tracking-[-0.035em] ${
             !isOpen ? "opacity-35" : ""
           }`}
         >

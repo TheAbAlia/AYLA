@@ -94,11 +94,14 @@ const Hero = () => {
       {/* ========================================================
           MOBILE
       ======================================================== */}
-      <div className="relative h-[100svh] min-h-[620px] md:hidden">
+      <div className="relative h-[100svh] min-h-[620px] md:hidden [@media(orientation:landscape)]:min-h-0">
         <img
           src="/ayla/hero.png"
           alt="AYLA — Before Language, Collection 001"
-          className="absolute inset-0 h-full w-full object-cover object-[52%_center]"
+          className="
+          absolute inset-0 h-full w-full object-cover object-[52%_center]
+          [@media(orientation:landscape)]:object-[50%_42%]
+        "
         />
 
         {/* Gentle contrast only where interface text sits */}
@@ -106,7 +109,7 @@ const Hero = () => {
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/30 via-black/10 to-transparent" />
 
         <header className="absolute inset-x-0 top-0 z-30">
-          <nav className="flex h-[68px] items-center justify-between px-5">
+          <nav className="flex h-[68px] items-center justify-between px-5 [@media(orientation:landscape)_and_(max-height:500px)]:h-[56px]">
             <LocalizedClientLink
               href="/"
               aria-label="AYLA Home"
@@ -150,7 +153,7 @@ const Hero = () => {
         </header>
 
         {/* Mobile collection entry */}
-        <div className="absolute inset-x-5 bottom-7 z-20 text-[#F1EDE5]">
+        <div className="absolute inset-x-5 bottom-7 z-20 text-[#F1EDE5] [@media(orientation:landscape)_and_(max-height:500px)]:hidden">
           <div className="border-t border-[#F1EDE5]/45 pt-3">
             <div className="flex items-end justify-between gap-6">
               <div>

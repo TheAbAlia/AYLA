@@ -46,7 +46,7 @@ export default async function OrderCompletedTemplate({
       className="min-h-screen bg-[#EEEAE1] text-[#191816]"
       data-testid="order-complete-container"
     >
-      <div className="px-5 pb-24 pt-10 md:px-[4.7%] md:pb-36 md:pt-14">
+      <div className="px-5 pb-20 pt-8 md:px-[4.7%] md:pb-36 md:pt-14">
         {isOnboarding && (
           <div className="mb-10">
             <OnboardingCta orderId={order.id} />
@@ -65,13 +65,13 @@ export default async function OrderCompletedTemplate({
         </div>
 
         {/* HERO */}
-        <section className="mt-12 grid grid-cols-1 gap-10 md:mt-16 md:grid-cols-12">
+        <section className="mt-10 grid grid-cols-1 gap-8 md:mt-16 md:grid-cols-12 md:gap-10">
           <div className="md:col-span-7">
-            <p className="mb-6 text-[8px] uppercase tracking-[0.28em] opacity-45">
+            <p className="mb-5 text-[8px] uppercase tracking-[0.28em] opacity-45 md:mb-6">
               Order received
             </p>
 
-            <h1 className="font-serif text-[clamp(68px,8.5vw,148px)] font-normal uppercase leading-[0.72] tracking-[-0.055em]">
+            <h1 className="font-serif text-[58px] font-normal uppercase leading-[0.76] tracking-[-0.05em] sm:text-[66px] md:text-[clamp(68px,8.5vw,148px)] md:leading-[0.72] md:tracking-[-0.055em]">
               Thank
               <br />
               you.
@@ -97,8 +97,8 @@ export default async function OrderCompletedTemplate({
         </section>
 
         {/* ORDER META */}
-        <section className="mt-14 border-y border-[#191816]/20 py-4 md:mt-16">
-          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+        <section className="mt-10 border-y border-[#191816]/20 py-5 md:mt-16 md:py-4">
+          <div className="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-4 md:gap-8">
             <div>
               <p className="text-[7px] uppercase tracking-[0.24em] opacity-35">
                 Order
@@ -144,14 +144,14 @@ export default async function OrderCompletedTemplate({
         </section>
 
         {/* ORDER */}
-        <section className="mt-14 md:mt-16">
+        <section className="mt-12 md:mt-16">
           <div className="flex items-end justify-between border-b border-[#191816]/25 pb-5">
             <div>
               <p className="mb-3 text-[8px] uppercase tracking-[0.26em] opacity-40">
                 Your order
               </p>
 
-              <h2 className="font-serif text-[34px] font-normal leading-none tracking-[-0.035em] md:text-[44px]">
+              <h2 className="font-serif text-[30px] font-normal leading-none tracking-[-0.03em] md:text-[44px] md:tracking-[-0.035em]">
                 Order
               </h2>
             </div>
@@ -233,7 +233,7 @@ export default async function OrderCompletedTemplate({
           </div>
 
           {/* TOTALS */}
-          <div className="ml-auto mt-8 w-full md:max-w-[440px]">
+          <div className="ml-auto mt-7 w-full md:mt-8 md:max-w-[440px]">
             <div className="space-y-4 border-b border-[#191816]/20 pb-6">
               <div className="flex items-center justify-between">
                 <span className="text-[7px] uppercase tracking-[0.22em] opacity-45">
@@ -301,7 +301,7 @@ export default async function OrderCompletedTemplate({
                 Total
               </span>
 
-              <span className="font-serif text-[34px] leading-none tracking-[-0.03em]">
+              <span className="font-serif text-[30px] leading-none tracking-[-0.03em] md:text-[34px]">
                 {money(order.total, order.currency_code)}
               </span>
             </div>
@@ -309,18 +309,18 @@ export default async function OrderCompletedTemplate({
         </section>
 
         {/* DELIVERY */}
-        <section className="mt-24 md:mt-32">
+        <section className="mt-16 md:mt-32">
           <div className="border-b border-[#191816]/25 pb-5">
             <p className="mb-3 text-[8px] uppercase tracking-[0.26em] opacity-40">
               Fulfilment
             </p>
 
-            <h2 className="font-serif text-[40px] font-normal leading-none tracking-[-0.04em] md:text-[54px]">
+            <h2 className="font-serif text-[32px] font-normal leading-none tracking-[-0.035em] md:text-[54px] md:tracking-[-0.04em]">
               Delivery
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-10 border-b border-[#191816]/20 py-8 md:grid-cols-3 md:gap-12">
+          <div className="grid grid-cols-1 gap-8 border-b border-[#191816]/20 py-7 md:grid-cols-3 md:gap-12 md:py-8">
             <div data-testid="shipping-address-summary">
               <p className="mb-5 text-[7px] uppercase tracking-[0.24em] opacity-35">
                 Address
@@ -386,7 +386,7 @@ export default async function OrderCompletedTemplate({
         </section>
 
         {/* EXIT */}
-        <section className="mt-20 flex flex-col gap-8 border-t border-[#191816]/25 pt-6 md:mt-28 md:flex-row md:items-end md:justify-between">
+        <section className="mt-16 flex flex-col gap-8 border-t border-[#191816]/25 pt-6 md:mt-28 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-[8px] uppercase tracking-[0.26em] opacity-40">
               AYLA / Before Language

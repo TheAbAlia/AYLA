@@ -29,10 +29,24 @@ const CartTotals = ({ totals }: CartTotalsProps) => {
       currency_code,
     })
 
+  const shippingResolved =
+    shipping_total !== null && shipping_total !== undefined
+
+  const taxesResolved =
+    tax_total !== null && tax_total !== undefined
+
+  const isEstimated = !shippingResolved || !taxesResolved
+
+  const pendingLabel = (
+    <span className="text-[8px] uppercase tracking-[0.14em] opacity-40">
+      Calculated at checkout
+    </span>
+  )
+
   return (
     <div className="w-full text-[#191816]">
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-6">
           <span className="text-[9px] uppercase tracking-[0.22em] opacity-55">
             Subtotal
           </span>
@@ -43,7 +57,7 @@ const CartTotals = ({ totals }: CartTotalsProps) => {
         </div>
 
         {!!discount_total && (
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-6">
             <span className="text-[9px] uppercase tracking-[0.22em] opacity-55">
               Discount
             </span>
@@ -55,7 +69,7 @@ const CartTotals = ({ totals }: CartTotalsProps) => {
         )}
 
         {!!gift_card_total && (
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-6">
             <span className="text-[9px] uppercase tracking-[0.22em] opacity-55">
               Gift card
             </span>
@@ -66,39 +80,49 @@ const CartTotals = ({ totals }: CartTotalsProps) => {
           </div>
         )}
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-6">
           <span className="text-[9px] uppercase tracking-[0.22em] opacity-55">
             Shipping
           </span>
 
-          <span className="text-[12px]">
-            {shipping_total ? money(shipping_total) : "—"}
-          </span>
+          {shippingResolved ? (
+            <span className="text-[12px]">
+              {money(shipping_total)}
+            </span>
+          ) : (
+            pendingLabel
+          )}
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-6">
           <span className="text-[9px] uppercase tracking-[0.22em] opacity-55">
             Taxes
           </span>
 
-          <span className="text-[12px]">
-            {tax_total ? money(tax_total) : "—"}
-          </span>
+          {taxesResolved ? (
+            <span className="text-[12px]">
+              {money(tax_total)}
+            </span>
+          ) : (
+            pendingLabel
+          )}
         </div>
       </div>
 
-      <div className="mt-7 flex items-end justify-between border-t border-[#191816]/15 pt-7">
+      <div className="mt-7 flex items-end justify-between gap-6 border-t border-[#191816]/15 pt-7">
         <div>
           <p className="text-[9px] uppercase tracking-[0.28em]">
-            Total
+            {isEstimated ? "Estimated total" : "Total"}
           </p>
 
-          <p className="mt-2 text-[7px] uppercase tracking-[0.18em] opacity-35">
-            Shipping calculated at checkout
-          </p>
+          {isEstimated && (
+            <p className="mt-2 max-w-[190px] text-[7px] uppercase leading-[1.6] tracking-[0.16em] opacity-35">
+              Final total confirmed during checkout
+            </p>
+          )}
         </div>
 
-        <span className="font-serif text-[28px] leading-none">
+        <span className="shrink-0 font-serif text-[28px] leading-none">
           {money(total)}
         </span>
       </div>

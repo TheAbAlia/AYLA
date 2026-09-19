@@ -17,7 +17,7 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
       className="min-h-screen bg-[#EEEAE1] text-[#191816]"
       data-testid="account-page"
     >
-      <div className="mx-auto w-full max-w-[1680px] px-5 pb-24 pt-10 md:px-8 md:pb-32 md:pt-14 lg:px-12">
+      <div className="mx-auto w-full max-w-[1680px] px-5 pb-20 pt-8 md:px-8 md:pb-32 md:pt-14 lg:px-12">
         {customer ? (
           <>
             <header className="border-b border-[#191816]/20 pb-5">
@@ -31,9 +31,9 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
                 </div>
               </div>
 
-              <div className="mt-14 grid grid-cols-1 gap-8 md:mt-20 md:grid-cols-12">
+              <div className="mt-10 grid grid-cols-1 gap-7 md:mt-20 md:grid-cols-12 md:gap-8">
                 <div className="md:col-span-7">
-                  <h1 className="font-serif text-[clamp(52px,7vw,112px)] font-normal uppercase leading-[0.78] tracking-[-0.055em]">
+                  <h1 className="font-serif text-[48px] font-normal uppercase leading-[0.82] tracking-[-0.05em] sm:text-[56px] md:text-[clamp(52px,7vw,112px)] md:leading-[0.78] md:tracking-[-0.055em]">
                     Account
                   </h1>
                 </div>
@@ -60,7 +60,7 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
 
             <div
   className="
-    pt-12 md:pt-16
+    pt-9 md:pt-16
 
     [&_input]:rounded-none
     [&_input]:border-x-0

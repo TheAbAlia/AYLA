@@ -9,7 +9,7 @@ const CheckoutSummary = ({ cart }: { cart: HttpTypes.StoreCart }) => {
     cart.items?.reduce((total, item) => total + item.quantity, 0) ?? 0
 
   return (
-    <div className="lg:sticky lg:top-8">
+    <div className="border-t border-[#191816]/25 pt-8 lg:sticky lg:top-8 lg:border-t-0 lg:pt-0">
       <div className="flex items-end justify-between border-b border-[#191816]/20 pb-5">
         <div>
           <p className="mb-3 text-[8px] uppercase tracking-[0.26em] opacity-45">
